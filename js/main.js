@@ -1,7 +1,7 @@
-const pathCode = '130000'; //エリアコード(東京:130000)
+const areaCode = '130000'; //エリアコード(東京:130000)
 
-function fetchWeatherInfo() {
-  fetch(`https://www.jma.go.jp/bosai/forecast/data/forecast/${pathCode}.json`)
+function fetchWeatherInfo(area) {
+  fetch(`https://www.jma.go.jp/bosai/forecast/data/forecast/${area}.json`)
     .then(function (response) {
       if (!response.ok) {
         return Promise.reject(
@@ -15,4 +15,5 @@ function fetchWeatherInfo() {
       console.error(error);
     });
 }
-fetchWeatherInfo();
+
+fetchWeatherInfo(areaCode);
