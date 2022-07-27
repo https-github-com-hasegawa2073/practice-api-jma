@@ -1,19 +1,16 @@
-const areaCode = '130000'; //エリアコード(東京:130000)
-
-function fetchWeatherInfo(area) {
-  fetch(`https://www.jma.go.jp/bosai/forecast/data/forecast/${area}.json`)
-    .then(function (response) {
-      if (!response.ok) {
-        return Promise.reject(
-          new Error(`${response.status}: ${response.statusText}`)
-        );
-      } else {
-        return response.json();
-      }
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
+async function fetchWeatherInfo(areaCode) {
+  const response = await fetch(
+    `https://www.jma.go.jp/bosai/forecast/data/forecast/${areaCode}.json`
+  );
+  const json = await response.json();
+  return json;
 }
 
-fetchWeatherInfo(areaCode);
+(async function () {
+  const tokyoAll = await fetchWeatherInfo(130000);
+  const tokyoInfo = tokyoAll[1].tempAverage.areas[0];
+  const areaName = tokyoInfo.area.name;
+  const max = tokyoInfo.max;
+  const min = tokyoInfo.min;
+  console.log(`${areaName}: 最高気温${max}度 最低気温${min}度`);
+})();
