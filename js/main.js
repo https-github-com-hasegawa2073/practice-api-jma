@@ -1,10 +1,18 @@
-function fetchInfo() {
-  fetch('https://www.jma.go.jp/bosai/forecast/data/forecast/130000.json')
+const pathCode = '130000'; //エリアコード(東京:130000)
+
+function fetchWeatherInfo() {
+  fetch(`https://www.jma.go.jp/bosai/forecast/data/forecast/${pathCode}.json`)
     .then(function (response) {
-      return response.json();
+      if (!response.ok) {
+        return Promise.reject(
+          new Error(`${response.status}: ${response.statusText}`)
+        );
+      } else {
+        return response.json();
+      }
     })
-    .then(function (wheather) {
-      console.log(wheather);
+    .catch(function (error) {
+      console.error(error);
     });
 }
-fetchInfo();
+fetchWeatherInfo();
